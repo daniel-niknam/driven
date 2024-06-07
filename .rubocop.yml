@@ -1,6 +1,7 @@
 AllCops:
   TargetRubyVersion: 3.2
   SuggestExtensions: false
+  NewCops: disable
 
 require:
   - standard
