@@ -1,5 +1,3 @@
-require "thor"
-
 module Driven
   class Cli < Thor
     desc "foo", "Prints foo"

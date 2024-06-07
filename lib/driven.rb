@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-require_relative "driven/version"
-require_relative "driven/cli"
+require "zeitwerk"
+
+loader = Zeitwerk::Loader.for_gem
+loader.setup
 
 module Driven
   class Error < StandardError; end
