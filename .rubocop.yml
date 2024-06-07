@@ -1,8 +1,14 @@
 AllCops:
-  TargetRubyVersion: 3.0
+  TargetRubyVersion: 3.2
+  SuggestExtensions: false
 
-Style/StringLiterals:
-  EnforcedStyle: double_quotes
+require:
+  - standard
+  - standard-custom
+  - standard-performance
+  - rubocop-performance
 
-Style/StringLiteralsInInterpolation:
-  EnforcedStyle: double_quotes
+inherit_gem:
+  standard: config/base.yml
+  standard-custom: config/base.yml
+  standard-performance: config/base.yml

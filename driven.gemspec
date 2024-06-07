@@ -11,19 +11,19 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Driven is a Framework inspired by Domain Driven Design"
   spec.description = <<~TEXT
-  Driven is a Framework heavily inspired by Domain Driven Design,
-   CQRS and Event Driven Architecture.
+    Driven is a Framework heavily inspired by Domain Driven Design,
+     CQRS and Event Driven Architecture.
   TEXT
   spec.homepage = "https://github.com/daniel-niknam/driven"
   spec.license = "MIT"
 
-  spec.required_ruby_version     = ">= 3.2.0"
+  spec.required_ruby_version = ">= 3.2.0"
 
   spec.metadata = {
-    "bug_tracker_uri"   => "https://github.com/daniel-niknam/driven/issues",
-    "changelog_uri"     => "https://github.com/daniel-niknam/driven/releases/tag/v#{version}",
-    "source_code_uri"   => "https://github.com/daniel-niknam/driven/tree/v#{version}",
-    "rubygems_mfa_required" => "true",
+    "bug_tracker_uri" => "https://github.com/daniel-niknam/driven/issues",
+    "changelog_uri" => "https://github.com/daniel-niknam/driven/releases/tag/v#{version}",
+    "source_code_uri" => "https://github.com/daniel-niknam/driven/tree/v#{version}",
+    "rubygems_mfa_required" => "true"
   }
 
   # Specify which files should be added to the gem when it is released.
