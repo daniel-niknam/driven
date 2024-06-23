@@ -4,6 +4,7 @@ module Driven
       def inherited(base)
         super
         Driven.app_class = base
+        Driven.bounded_contexts = {}
       end
 
       def instance
@@ -11,11 +12,13 @@ module Driven
       end
     end
 
+    attr_reader :autoloaders
+
     def initialize(&block)
       super
       @initialized = false
       @ran_load_hooks = false
-      @autoloaders = nil
+      @autoloaders = Driven::Autoloaders.new
       @block = block
     end
 
@@ -24,13 +27,16 @@ module Driven
     def initialize!(group = :default) # :nodoc:
       raise "Application has been already initialized." if @initialized
       run_initializers(group, self)
+      require_bounded_contexts!
+      initialize_bounded_contexts
       @initialized = true
       self
     end
 
     def initializers # :nodoc:
       Bootstrap.initializers_for(self) +
-      base_initializers(super)
+      base_initializers(super) +
+      Finisher.initializers_for(self)
     end
 
     def run_load_hooks!
@@ -46,6 +52,18 @@ module Driven
       require environment if environment
     end
 
+    def require_bounded_contexts!
+      paths["bounded_contexts"].existent.each do |bounded_context|
+        require bounded_context
+      end
+    end
+
+    def initialize_bounded_contexts
+      Driven.bounded_contexts.each do |bounded_context, _app|
+        bounded_context.instance.initialize!
+      end
+    end
+
     def config # :nodoc:
       @config ||= Application::Configuration.new(self.class.find_root(self.class.called_from))
     end
@@ -53,8 +71,8 @@ module Driven
     protected
 
     def base_initializers(current)
-      initializers = []
-      initializers += current # No loop, since there is only one base
+      initializers = Initializable::Collection.new
+      initializers += current
       initializers
     end
   end

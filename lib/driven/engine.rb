@@ -36,6 +36,37 @@ module Driven
       end
     end
 
+    initializer :set_autoload_paths, before: :bootstrap_hook do
+      config.autoload_paths.unshift(*_all_autoload_paths)
+      config.autoload_paths.freeze
+    end
+
+    initializer :set_eager_load_paths, before: :bootstrap_hook do
+      config.eager_load_paths.unshift(*config.all_eager_load_paths)
+      config.eager_load_paths.freeze
+    end
+
+
+    protected
+
+    def _all_autoload_paths
+      @_all_autoload_paths ||= begin
+        autoload_paths  = config.all_autoload_paths
+        autoload_paths += config.all_eager_load_paths
+        autoload_paths.uniq
+      end
+    end
+
+    def _all_load_paths(add_autoload_paths_to_load_path)
+      @_all_load_paths ||= begin
+        load_paths = config.paths.load_paths
+        if add_autoload_paths_to_load_path
+          load_paths += _all_autoload_paths
+        end
+        load_paths.uniq
+      end
+    end
+
     private
 
     def self.find_root_with_flag(flag, root_path, default = nil) # :nodoc:
